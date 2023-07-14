@@ -16,6 +16,14 @@ export default function App() {
     setCourseGoals((currentCourseGoals) => [...currentCourseGoals, {id: Math.random().toString(), text: enteredGoalText}]);
   };
 
+  // handle deleting a goal
+  function deleteGoalHandler(id) {
+    setCourseGoals(currentCourseGoals => {
+      // filter goals by id, return true if there is no match
+      return currentCourseGoals.filter((goal) => goal.id !== id );
+    });
+  }
+
   return (
     <View style={styles.appContainer}>
       <GoalInput onAddGoal={addGoal}/>
@@ -24,7 +32,7 @@ export default function App() {
           // FlatList optimizes scrolling by only rendering what is required (Lazy Loading)
           data={courseGoals} 
           renderItem={(itemData) => {
-          return <GoalItem text={itemData.item.text}/>
+          return <GoalItem id={itemData.item.id} text={itemData.item.text} onDeleteItem={deleteGoalHandler}/>
         }} 
         // get unique key for each goal
         keyExtractor={(item, index) => {
