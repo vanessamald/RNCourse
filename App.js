@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 export default function App() {
+  // entered goal
   const [ enteredGoalText, setEnteredGoalText ] = useState('');
+  // array of goals
+  const [ courseGoals, setCourseGoals ] = useState([]);
 
   // function to handle text input
   function goalInput(enteredText) {
@@ -11,7 +14,8 @@ export default function App() {
 
   //function to handle button press
   function addGoal() {
-    console.log(enteredGoalText);
+    // if your new state depends on the previous state use a function (better practice)
+    setCourseGoals((currentCourseGoals) => [...courseGoals, enteredGoalText]);
   };
 
   return (
@@ -21,7 +25,7 @@ export default function App() {
         <Button title='Add Goal' onPress={addGoal}></Button>
       </View>
       <View style={styles.goalsContainer}>
-        <Text>List of goals...</Text>
+        {courseGoals.map((goal)=> <Text key={goal}>{goal}</Text>)}
       </View>
     </View>
   );
