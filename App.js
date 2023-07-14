@@ -25,12 +25,17 @@ export default function App() {
         <Button title='Add Goal' onPress={addGoal}></Button>
       </View>
       <View style={styles.goalsContainer}>
-        {courseGoals.map((goal)=> <Text key={goal}>{goal}</Text>)}
+        {courseGoals.map((goal)=> (
+          <View key={goal} style={styles.goalItem}>
+            <Text style={styles.goalText}>{goal}</Text>
+          </View>
+        ))}
       </View>
     </View>
   );
 }
 
+// styles do not cascade, no style inheritance like in CSS
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
@@ -55,5 +60,14 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     flex: 4
+  },
+  goalItem: {
+    margin: 8,
+    padding: 8,
+    borderRadius: 6,
+    backgroundColor: '#5e0acc',
+  },
+  goalText: {
+    color: 'white'
   }
 });
