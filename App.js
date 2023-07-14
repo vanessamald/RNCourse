@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
   // entered goal
@@ -15,7 +15,7 @@ export default function App() {
   //function to handle button press
   function addGoal() {
     // if your new state depends on the previous state use a function (better practice)
-    setCourseGoals((currentCourseGoals) => [...courseGoals, enteredGoalText]);
+    setCourseGoals((currentCourseGoals) => [...courseGoals, {id: Math.random().toString(), text: enteredGoalText}]);
   };
 
   return (
@@ -25,13 +25,22 @@ export default function App() {
         <Button title='Add Goal' onPress={addGoal}></Button>
       </View>
       <View style={styles.goalsContainer}>
-        <ScrollView>
-          {courseGoals.map((goal)=> (
-          <View key={goal} style={styles.goalItem}>
-            <Text style={styles.goalText}>{goal}</Text>
-          </View>
-        ))}
-        </ScrollView>
+        <FlatList
+          // FlatList optimizes scrolling by only rendering what is required (Lazy Loading)
+          data={courseGoals} 
+          renderItem={(itemData) => {
+          return (
+            <View style={styles.goalItem}>
+              <Text style={styles.goalText}>{itemData.item.text}</Text>
+            </View>
+          )
+        }} 
+        // get unique key for each goal
+        keyExtractor={(item, index) => {
+          return item.id;
+        }}
+        alwaysBounceVertical={false}
+        />
       </View>
     </View>
   );
